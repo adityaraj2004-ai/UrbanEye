@@ -9,6 +9,8 @@ import incidentRoutes from "./routes/incident.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import { errorHandler } from "./middleware/error.middleware.js";
+import { apiLimiter, authLimiter } from "./middleware/rateLimiter.middleware.js";
+
 
 const app = express();
 
@@ -27,11 +29,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/incidents", incidentRoutes);
-app.use("/api/v1/analytics", analyticsRoutes);
-app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/auth", authLimiter, authRoutes);
+app.use("/api/v1/users", apiLimiter, userRoutes);
+app.use("/api/v1/incidents", apiLimiter, incidentRoutes);
+app.use("/api/v1/analytics", apiLimiter, analyticsRoutes);
+app.use("/api/v1/admin", apiLimiter, adminRoutes);
 
 // Health check route
 app.get("/health", (req, res) => {
