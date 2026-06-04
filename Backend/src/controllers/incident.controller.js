@@ -1,5 +1,10 @@
 import * as incidentService from "../services/incident.service.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import {
+  emitNewIncident,
+  emitIncidentDeleted,
+  emitUpvoteUpdated,
+} from "../services/socket.service.js";
 
 export const createIncident = async (req, res, next) => {
   try {
@@ -9,8 +14,9 @@ export const createIncident = async (req, res, next) => {
       userId: req.user._id,
     });
 
-    // After creating, emit socket event 
-    // req.io.emit("new_incident", incident);
+    // Emit to all connected users after saving
+    // Every open map will show this marker immediately
+    emitNewIncident(incident);
 
     res.status(201).json(
       new ApiResponse(201, { incident }, "Incident reported successfully")
@@ -78,6 +84,10 @@ export const deleteIncident = async (req, res, next) => {
       userId: req.user._id,
       userRole: req.user.role,
     });
+
+    // Tell all clients to remove this marker from map
+    emitIncidentDeleted(req.params.id);
+
     res.status(200).json(new ApiResponse(200, result, result.message));
   } catch (error) {
     next(error);
@@ -90,6 +100,10 @@ export const toggleUpvote = async (req, res, next) => {
       incidentId: req.params.id,
       userId: req.user._id,
     });
+
+    // Broadcast updated upvote count to all users
+    emitUpvoteUpdated(req.params.id, result.upvoteCount);
+
     res.status(200).json(
       new ApiResponse(200, result, "Upvote updated successfully")
     );
@@ -109,7 +123,11 @@ export const getNearbyIncidents = async (req, res, next) => {
       page,
     });
     res.status(200).json(
-      new ApiResponse(200, { incidents }, "Nearby incidents fetched successfully")
+      new ApiResponse(
+        200,
+        { incidents },
+        "Nearby incidents fetched successfully"
+      )
     );
   } catch (error) {
     next(error);
@@ -118,7 +136,8 @@ export const getNearbyIncidents = async (req, res, next) => {
 
 export const getMapIncidents = async (req, res, next) => {
   try {
-    const { northEastLat, northEastLng, southWestLat, southWestLng } = req.query;
+    const { northEastLat, northEastLng, southWestLat, southWestLng } =
+      req.query;
     const incidents = await incidentService.fetchMapIncidents({
       northEastLat,
       northEastLng,
