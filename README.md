@@ -2,7 +2,7 @@
 
 # 🌆 UrbanEye
 
-### AI-Powered Urban Safety & Traffic Intelligence Platform
+### Urban Safety & Traffic Intelligence Platform
 
 *A full-stack geospatial civic intelligence platform enabling real-time reporting and monitoring of urban safety incidents*
 
