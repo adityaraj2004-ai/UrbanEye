@@ -1,6 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
+@theme {
+  --color-background: #0b0b0b;
+  --color-foreground: #f3f3f3;
+  --color-primary: #f5e9d7;
+  --color-primary-foreground: #0b0b0b;
+  --color-muted-foreground: #9a9a9a;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-input: rgba(255, 255, 255, 0.1);
+  --color-ring: rgba(245, 233, 215, 0.4);
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-accent: rgba(255, 255, 255, 0.05);
+  --color-accent-foreground: #f3f3f3;
+  --color-secondary: rgba(255, 255, 255, 0.1);
+  --color-secondary-foreground: #f3f3f3;
+}
+
 html {
   scroll-behavior: smooth;
 }

@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-export default function AuthLayout() {
+export default function AuthLayout({ children }) {
   return (
     <div className="min-h-screen flex" style={{ background: '#0B0B0B' }}>
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
@@ -29,9 +29,12 @@ export default function AuthLayout() {
           }
         `}</style>
       </div>
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+      <div
+        className="w-full lg:w-1/2 flex items-center justify-center p-8"
+        style={{ background: '#0B0B0B' }}
+      >
         <div className="w-full max-w-md">
-          <Outlet />
+          {children ?? <Outlet />}
         </div>
       </div>
     </div>

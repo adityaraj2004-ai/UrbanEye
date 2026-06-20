@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/auth.api.js";
-import Input from "../ui/Input.jsx";
-import Button from "../ui/Button.jsx";
+import {Input} from "../ui/input.jsx";
+import {Button} from "../ui/button.jsx";
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -18,10 +18,10 @@ export default function SignupForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-    setServerError("");
-  };
+          setFormData((prev) => ({ ...prev, [name]: value }));
+          setErrors((prev) => ({ ...prev, [name]: "" }));
+          setServerError("");
+        };
 
   const validate = () => {
     const next = {};

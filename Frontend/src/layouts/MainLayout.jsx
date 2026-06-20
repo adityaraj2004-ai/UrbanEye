@@ -6,7 +6,7 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#0B0B0B' }}>
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 pt-16 flex flex-col">
         <Outlet />
       </main>
       <Footer />
