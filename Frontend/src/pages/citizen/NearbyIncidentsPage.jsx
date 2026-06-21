@@ -5,7 +5,7 @@ import { useNearbyIncidents } from "../../hooks/useIncidents.js";
 import IncidentFeed from "../../components/incidents/IncidentFeed.jsx";
 import Loader from "../../components/common/Loader.jsx";
 import EmptyState from "../../components/common/EmptyState.jsx";
-import Select from "../../components/ui/Select.jsx";
+import {Select} from "../../components/ui/select.jsx";
 
 const RADIUS_OPTIONS = [
   { value: "1", label: "1 km" },

@@ -12,7 +12,7 @@ import {
   AlertOctagon,
   CircleDot,
 } from "lucide-react";
-import Card from "../ui/Card.jsx";
+import {Card} from "../ui/card.jsx";
 import SeverityBadge from "./SeverityBadge.jsx";
 import { formatRelativeTime } from "../../utils/formatDate.js";
 
