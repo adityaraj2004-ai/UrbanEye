@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import { Input } from "../ui/input.jsx";
 import { Button } from "../ui/button.jsx";
 import {
@@ -20,6 +22,13 @@ const SEVERITY_OPTIONS = Object.values(SEVERITY_LEVELS).map((v) => ({
   value: v,
   label: v.charAt(0).toUpperCase() + v.slice(1),
 }));
+
+const pickedMarkerIcon = L.divIcon({
+  className: "picked-location-marker",
+  html: `<div style="width:18px;height:18px;border-radius:9999px;background:#F3E7D3;border:2px solid #0B0B0B;box-shadow:0 0 0 2px rgba(243,231,211,0.4);"></div>`,
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
+});
 
 const IncidentForm = ({ initialLocation, onSuccess }) => {
   const [title, setTitle] = useState("");
@@ -168,7 +177,18 @@ const IncidentForm = ({ initialLocation, onSuccess }) => {
               incidents={[]}
               center={[initialLocation.lat, initialLocation.lng]}
               zoom={15}
-            />
+            >
+              <Marker
+                position={[initialLocation.lat, initialLocation.lng]}
+                icon={pickedMarkerIcon}
+              >
+                <Popup>
+                  <span className="text-xs text-neutral-100">
+                    Selected location
+                  </span>
+                </Popup>
+              </Marker>
+            </MainMap>
           </div>
         ) : (
           <div className="h-64 w-full overflow-hidden rounded-md border border-white/10">
@@ -177,7 +197,20 @@ const IncidentForm = ({ initialLocation, onSuccess }) => {
               center={[20.5937, 78.9629]}
               zoom={5}
               onMapClick={(latlng) => setLocation(latlng)}
-            />
+            >
+              {location && (
+                <Marker
+                  position={[location.lat, location.lng]}
+                  icon={pickedMarkerIcon}
+                >
+                  <Popup>
+                    <span className="text-xs text-neutral-100">
+                      Selected location
+                    </span>
+                  </Popup>
+                </Marker>
+              )}
+            </MainMap>
           </div>
         )}
         {errors.location && (
