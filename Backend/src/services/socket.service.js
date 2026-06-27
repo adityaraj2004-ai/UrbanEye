@@ -1,4 +1,11 @@
-import { io } from "../server.js";
+// Module-level variable holding the io instance
+// Set once from server.js after Socket.IO initializes
+// This avoids a circular import between server.js and this file
+let ioInstance = null;
+
+export const setIO = (io) => {
+  ioInstance = io;
+};
 
 // EMIT NEW INCIDENT
 // Called after incident is created
@@ -6,7 +13,8 @@ import { io } from "../server.js";
 // Every open map will show the new marker instantly
 export const emitNewIncident = (incident) => {
   try {
-    io.emit("new_incident", {
+    if (!ioInstance) return;
+    ioInstance.emit("new_incident", {
       _id: incident._id,
       title: incident.title,
       category: incident.category,
@@ -28,7 +36,8 @@ export const emitNewIncident = (incident) => {
 // Users watching that incident get live update
 export const emitIncidentUpdated = (incident) => {
   try {
-    io.emit("incident_updated", {
+    if (!ioInstance) return;
+    ioInstance.emit("incident_updated", {
       _id: incident._id,
       status: incident.status,
       adminNote: incident.adminNote,
@@ -45,7 +54,8 @@ export const emitIncidentUpdated = (incident) => {
 // Frontend removes marker from map
 export const emitIncidentDeleted = (incidentId) => {
   try {
-    io.emit("incident_deleted", { incidentId });
+    if (!ioInstance) return;
+    ioInstance.emit("incident_deleted", { incidentId });
   } catch (error) {
     console.error("Socket emit error (incident_deleted):", error.message);
   }
@@ -56,7 +66,8 @@ export const emitIncidentDeleted = (incidentId) => {
 // Updates upvote count live on all clients
 export const emitUpvoteUpdated = (incidentId, upvoteCount) => {
   try {
-    io.emit("upvote_updated", { incidentId, upvoteCount });
+    if (!ioInstance) return;
+    ioInstance.emit("upvote_updated", { incidentId, upvoteCount });
   } catch (error) {
     console.error("Socket emit error (upvote_updated):", error.message);
   }

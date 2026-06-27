@@ -7,8 +7,8 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes.js";
-// import userRoutes from "./routes/user.routes.js";
-// import incidentRoutes from "./routes/incident.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import incidentRoutes from "./routes/incident.routes.js";
 // import analyticsRoutes from "./routes/analytics.routes.js";
 // import adminRoutes from "./routes/admin.routes.js";
 import { errorHandler } from "./middleware/error.middleware.js";
@@ -18,7 +18,11 @@ import { apiLimiter, authLimiter } from "./middleware/rateLimiter.middleware.js"
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 
 app.use(cors({
@@ -33,8 +37,8 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/auth", authLimiter, authRoutes);
-// app.use("/api/v1/users", apiLimiter, userRoutes);
-// app.use("/api/v1/incidents", apiLimiter, incidentRoutes);
+app.use("/api/v1/users", apiLimiter, userRoutes);
+app.use("/api/v1/incidents", apiLimiter, incidentRoutes);
 // app.use("/api/v1/analytics", apiLimiter, analyticsRoutes);
 // app.use("/api/v1/admin", apiLimiter, adminRoutes);
 

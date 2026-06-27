@@ -1,6 +1,12 @@
 import { X } from "lucide-react";
-import { Select } from "../ui/select.jsx";
-import  SearchBar  from "../common/SearchBar.jsx";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "../ui/select.jsx";
+import SearchBar from "../common/SearchBar.jsx";
 import {
     INCIDENT_CATEGORIES,
     SEVERITY_LEVELS,
@@ -36,29 +42,59 @@ const IncidentFilters = ({ filters = {}, onFilterChange }) => {
                         placeholder="Search incidents..."
                     />
                 </div>
+
                 <div className="min-w-[160px]">
-                    <select
+                    <Select
                         value={filters.category || ""}
-                        onChange={(e) => update("category", e.target.value)}
-                        placeholder="All categories"
-                        options={INCIDENT_CATEGORIES}
-                    />
+                        onValueChange={(v) => update("category", v)}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="All categories" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {INCIDENT_CATEGORIES.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
+
                 <div className="min-w-[140px]">
-                    <select
+                    <Select
                         value={filters.severity || ""}
-                        onChange={(e) => update("severity", e.target.value)}
-                        placeholder="All severities"
-                        options={SEVERITY_OPTIONS}
-                    />
+                        onValueChange={(v) => update("severity", v)}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="All severities" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {SEVERITY_OPTIONS.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
+
                 <div className="min-w-[160px]">
-                    <select
+                    <Select
                         value={filters.status || ""}
-                        onChange={(e) => update("status", e.target.value)}
-                        placeholder="All statuses"
-                        options={STATUS_OPTIONS}
-                    />
+                        onValueChange={(v) => update("status", v)}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="All statuses" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {STATUS_OPTIONS.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
 
