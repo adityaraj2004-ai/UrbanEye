@@ -39,3 +39,16 @@
   .leaflet-bar a:hover {
     background: #1a1a1a !important;
   }
+
+  /* Dark mode tile filter — OpenStreetMap tiles inverted to match dark theme */
+  .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
+  }
+
+  /* Prevent markers, popups, and controls from being inverted too */
+  .leaflet-marker-icon,
+  .leaflet-popup,
+  .leaflet-popup-pane,
+  .leaflet-control {
+    filter: none;
+  }
