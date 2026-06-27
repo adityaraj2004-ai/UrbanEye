@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, TileLayer, useMapEvents, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../../styles/map.css";
 import IncidentMarker from "./IncidentMarker.jsx";
@@ -11,6 +12,17 @@ function MapClickHandler({ onMapClick }) {
       }
     },
   });
+  return null;
+}
+
+function InvalidateMapSize() {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [map]);
   return null;
 }
 
@@ -36,6 +48,7 @@ const MainMap = ({
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer url={tileUrl} attribution={attribution} />
+      <InvalidateMapSize />
 
       {onMapClick && <MapClickHandler onMapClick={onMapClick} />}
 
